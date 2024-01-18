@@ -10,20 +10,28 @@ import { Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from './components/Layout';
 import BlogCharacter from './pages/BlogCharacter';
+import { createContext, useState } from 'react';
+
+
+export const CharactersContext = createContext();
+
 function App() {
+  const [charactersList, setCharactersList] = useState(null);
   return (
     <>
-      <Navbar></Navbar>
-      <h1>App</h1>
-      <Routes>
-        <Route path='/' element={<Layout></Layout>}>
-          <Route element={<Inicio></Inicio>} path="/"></Route>
-          <Route element={<Contacto></Contacto>} path="/contacto"></Route>
-          <Route element={<Blog></Blog>} path="/blog"></Route>
-          <Route element={<NotFound></NotFound>} path="*"></Route>
-          <Route element={<BlogCharacter></BlogCharacter>}path='/blog/:id'></Route>
-        </Route>
-      </Routes>
+      <CharactersContext.Provider value={{ charactersList, setCharactersList }}>
+        <Navbar></Navbar>
+        <h1>App</h1>
+        <Routes>
+          <Route path='/' element={<Layout></Layout>}>
+            <Route element={<Inicio></Inicio>} path="/"></Route>
+            <Route element={<Contacto></Contacto>} path="/contacto"></Route>
+            <Route element={<Blog></Blog>} path="/blog"></Route>
+            <Route element={<NotFound></NotFound>} path="*"></Route>
+            <Route element={<BlogCharacter></BlogCharacter>} path='/blog/:id'></Route>
+          </Route>
+        </Routes>
+      </CharactersContext.Provider>
     </>
   );
 

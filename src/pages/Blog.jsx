@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
+import { CharactersContext } from '../App';
 
 const Blog = () => {
   const { data, loading, error } = useFetch('https://rickandmortyapi.com/api/character');
   const [searchTerm, setSearchTerm] = useState('');
   let [searchParams, setSearchParams] = useSearchParams();
+  const { charactersList, setCharactersList } = useContext(CharactersContext);
+
+  useEffect(() => {
+    if (data) {
+      setCharactersList(data.results);
+    }
+  }, [data]);
+
 
   if (loading) return (<h1>Cargando...</h1>);
   if (error) return (<h1>Ha ocurrido un error inesperado.</h1>);
